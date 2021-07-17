@@ -79,9 +79,12 @@ def get_player_pairs(nba_data, sum_n):
         sub = sum_n - int(nba_data[i]["h_in"])
 
         if sub in hash_table:
-
+                
             name = f"{nba_data[i]['first_name']} {nba_data[i]['last_name']}"
-            pairs.append((name, hash_table[sub].pop()))
+            name2 = hash_table[sub].pop()
+
+            if name != name2:
+                pairs.append((name, name2))
 
             if not hash_table[sub]:
                 del hash_table[sub]
