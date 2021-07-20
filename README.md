@@ -6,7 +6,7 @@ to use the script that finds pairs of players, execute the python file "nba_main
 Install the dependencies, for now the only one is numpy
 
 ```console
-$ pip3 install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 example:
