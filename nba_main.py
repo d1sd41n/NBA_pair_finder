@@ -2,6 +2,7 @@
 import json
 import sys
 import urllib.request
+import numpy as np
 
 
 class GetData:
@@ -75,19 +76,25 @@ def get_player_pairs(nba_data, sum_n):
         else:
             hash_table[number].append(name)
 
+    hash_set = set()
+
     for i in range(len(nba_data)):
         sub = sum_n - int(nba_data[i]["h_in"])
 
         if sub in hash_table:
                 
             name = f"{nba_data[i]['first_name']} {nba_data[i]['last_name']}"
-            name2 = hash_table[sub].pop()
+            
+            for x in hash_table[sub]:
+                name2 = x
 
-            if name != name2:
-                pairs.append((name, name2))
+                pair = f"{name} {name2}"
+                ascii_sum = np.frombuffer(str.encode(pair), "uint8").sum()
 
-            if not hash_table[sub]:
-                del hash_table[sub]
+                if not ascii_sum in hash_set:
+                    if name != name2:
+                        pairs.append(pair)
+                        hash_set.add(ascii_sum)
 
     return pairs
 
@@ -98,7 +105,7 @@ def print_pairs(nba_pairs):
 
     if nba_pairs:
         for x in nba_pairs:
-            print(f"-{x[0]}  {x[1]}")
+            print(f"-{x}")
     else:
         print("No matches found")
 
